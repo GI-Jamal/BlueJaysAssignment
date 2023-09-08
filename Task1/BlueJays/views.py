@@ -48,6 +48,8 @@ divisions = {
     203: "NL West",
 }
 
+ranks = {"1": "1st", "2": "2nd", "3": "3rd", "4": "4th", "5": "5th"}
+
 
 @app.route("/")
 @app.route("/teams/")
@@ -101,15 +103,15 @@ def home():
 
 @app.route("/teams/<id>")
 def teams(id):
-    
+
     team_url = "https://statsapi.mlb.com/api/v1/teams/" + id
-    
+
     team_response = requests.get(team_url)
-    
+
     team = team_response.json()
-    
+
     teamName = team["teams"][0]["teamName"].replace(" ", "").lower()
-    
+
     news_url = "https://www.mlb.com/" + teamName + "/feeds/news/rss.xml"
 
     news_response = requests.get(news_url)
@@ -189,72 +191,131 @@ def teams(id):
             pitchers.append(player["person"])
 
         elif player["person"]["primaryPosition"]["name"] == "Two-Way Player":
-            
-            pitcher_url = "https://statsapi.mlb.com/api/v1/people/" + str(player["person"]["id"]) + "?hydrate=stats(group=[pitching],type=[season])"
+
+            pitcher_url = (
+                "https://statsapi.mlb.com/api/v1/people/"
+                + str(player["person"]["id"])
+                + "?hydrate=stats(group=[pitching],type=[season])"
+            )
             pitcher_response = requests.get(pitcher_url)
             pitcher = pitcher_response.json()
 
-            hitter_url = "https://statsapi.mlb.com/api/v1/people/" + str(player["person"]["id"]) + "?hydrate=stats(group=[hitting],type=[season])"
+            hitter_url = (
+                "https://statsapi.mlb.com/api/v1/people/"
+                + str(player["person"]["id"])
+                + "?hydrate=stats(group=[hitting],type=[season])"
+            )
             hitter_response = requests.get(hitter_url)
             hitter = hitter_response.json()
-            
-            if "stats" not in pitcher["people"][0] and "stats" not in hitter["people"][0]:
+
+            if (
+                "stats" not in pitcher["people"][0]
+                and "stats" not in hitter["people"][0]
+            ):
                 pitchers.append(pitcher["people"][0])
                 hitters.append(hitter["people"][0])
-            
+
             elif "stats" not in pitcher["people"][0]:
                 pitchers.append(pitcher["people"][0])
-                
-                batting_strikeOuts = hitter["people"][0]["stats"][0]["splits"][0]["stat"]["strikeOuts"]
-                batting_walks = hitter["people"][0]["stats"][0]["splits"][0]["stat"]["baseOnBalls"]
-                plateAppearances = hitter["people"][0]["stats"][0]["splits"][0]["stat"]["plateAppearances"];
-            
-                batting_strikeOutRate = round((batting_strikeOuts / plateAppearances) * 100, 1)
+
+                batting_strikeOuts = hitter["people"][0]["stats"][0]["splits"][0][
+                    "stat"
+                ]["strikeOuts"]
+                batting_walks = hitter["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "baseOnBalls"
+                ]
+                plateAppearances = hitter["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "plateAppearances"
+                ]
+
+                batting_strikeOutRate = round(
+                    (batting_strikeOuts / plateAppearances) * 100, 1
+                )
                 batting_walkRate = round((batting_walks / plateAppearances) * 100, 1)
-            
-                hitter["people"][0]["stats"][0]["splits"][0]["stat"]["strikeOutRate"] = batting_strikeOutRate
-                hitter["people"][0]["stats"][0]["splits"][0]["stat"]["walkRate"] = batting_walkRate
-            
+
+                hitter["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "strikeOutRate"
+                ] = batting_strikeOutRate
+                hitter["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "walkRate"
+                ] = batting_walkRate
+
                 hitters.append(hitter["people"][0])
-            
+
             elif "stats" not in hitter["people"][0]:
                 hitters.append(hitter["people"][0])
-                
-                pitching_strikeOuts = pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["strikeOuts"]
-                pitching_walks = pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["baseOnBalls"]
-                battersFaced = pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["battersFaced"]
-            
-                pitching_strikeOutRate = round((pitching_strikeOuts / battersFaced) * 100)
+
+                pitching_strikeOuts = pitcher["people"][0]["stats"][0]["splits"][0][
+                    "stat"
+                ]["strikeOuts"]
+                pitching_walks = pitcher["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "baseOnBalls"
+                ]
+                battersFaced = pitcher["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "battersFaced"
+                ]
+
+                pitching_strikeOutRate = round(
+                    (pitching_strikeOuts / battersFaced) * 100
+                )
                 pitching_walkRate = round((pitching_walks / battersFaced) * 100)
-            
-                pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["strikeOutRate"] = pitching_strikeOutRate
-                pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["walkRate"] = pitching_walkRate
-            
-                pitchers.append(pitcher["people"][0])
-            
-            else:
-                pitching_strikeOuts = pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["strikeOuts"]
-                pitching_walks = pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["baseOnBalls"]
-                battersFaced = pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["battersFaced"]
-            
-                pitching_strikeOutRate = round((pitching_strikeOuts / battersFaced) * 100)
-                pitching_walkRate = round((pitching_walks / battersFaced) * 100)
-            
-                pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["strikeOutRate"] = pitching_strikeOutRate
-                pitcher["people"][0]["stats"][0]["splits"][0]["stat"]["walkRate"] = pitching_walkRate
-            
+
+                pitcher["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "strikeOutRate"
+                ] = pitching_strikeOutRate
+                pitcher["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "walkRate"
+                ] = pitching_walkRate
+
                 pitchers.append(pitcher["people"][0])
 
-                batting_strikeOuts = hitter["people"][0]["stats"][0]["splits"][0]["stat"]["strikeOuts"]
-                batting_walks = hitter["people"][0]["stats"][0]["splits"][0]["stat"]["baseOnBalls"]
-                plateAppearances = hitter["people"][0]["stats"][0]["splits"][0]["stat"]["plateAppearances"];
-            
-                batting_strikeOutRate = round((batting_strikeOuts / plateAppearances) * 100, 1)
+            else:
+                pitching_strikeOuts = pitcher["people"][0]["stats"][0]["splits"][0][
+                    "stat"
+                ]["strikeOuts"]
+                pitching_walks = pitcher["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "baseOnBalls"
+                ]
+                battersFaced = pitcher["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "battersFaced"
+                ]
+
+                pitching_strikeOutRate = round(
+                    (pitching_strikeOuts / battersFaced) * 100
+                )
+                pitching_walkRate = round((pitching_walks / battersFaced) * 100)
+
+                pitcher["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "strikeOutRate"
+                ] = pitching_strikeOutRate
+                pitcher["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "walkRate"
+                ] = pitching_walkRate
+
+                pitchers.append(pitcher["people"][0])
+
+                batting_strikeOuts = hitter["people"][0]["stats"][0]["splits"][0][
+                    "stat"
+                ]["strikeOuts"]
+                batting_walks = hitter["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "baseOnBalls"
+                ]
+                plateAppearances = hitter["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "plateAppearances"
+                ]
+
+                batting_strikeOutRate = round(
+                    (batting_strikeOuts / plateAppearances) * 100, 1
+                )
                 batting_walkRate = round((batting_walks / plateAppearances) * 100, 1)
-            
-                hitter["people"][0]["stats"][0]["splits"][0]["stat"]["strikeOutRate"] = batting_strikeOutRate
-                hitter["people"][0]["stats"][0]["splits"][0]["stat"]["walkRate"] = batting_walkRate
-            
+
+                hitter["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "strikeOutRate"
+                ] = batting_strikeOutRate
+                hitter["people"][0]["stats"][0]["splits"][0]["stat"][
+                    "walkRate"
+                ] = batting_walkRate
+
                 hitters.append(hitter["people"][0])
 
         else:
@@ -277,8 +338,6 @@ def teams(id):
             hitters.append(player["person"])
 
     tableLengths = {"hitters": len(hitters), "pitchers": len(pitchers)}
-
-    ranks = {"1": "1st", "2": "2nd", "3": "3rd", "4": "4th", "5": "5th"}
 
     return render_template(
         "team.html",
@@ -304,9 +363,9 @@ def players(id):
     response = requests.get(player_url)
 
     player = response.json()
-    
-    years = {}; 
-    
+
+    years = {}
+
     currentYear = datetime.now().year
 
     if player["people"][0]["primaryPosition"]["name"] == "Two-Way Player":
@@ -317,15 +376,16 @@ def players(id):
         )
         response = requests.get(player_url)
         player = response.json()
-        
+
         arrange = [1, 0]
-        
+
         if player["people"][0]["stats"][0]["group"]["displayName"] != "pitching":
-            player["people"][0]["stats"] = [player["people"][0]["stats"][i] for i in arrange]
-        
+            player["people"][0]["stats"] = [
+                player["people"][0]["stats"][i] for i in arrange
+            ]
+
         years["pitching"] = len(player["people"][0]["stats"][0]["splits"])
         years["hitting"] = len(player["people"][0]["stats"][1]["splits"])
-            
 
     elif player["people"][0]["primaryPosition"]["name"] == "Pitcher":
         player_url = (
@@ -335,10 +395,10 @@ def players(id):
         )
         response = requests.get(player_url)
         player = response.json()
-        
+
         if "stats" in player["people"][0]:
             years["pitching"] = len(player["people"][0]["stats"][0]["splits"])
-            
+
     else:
         player_url = (
             "https://statsapi.mlb.com/api/v1/people/"
@@ -347,7 +407,7 @@ def players(id):
         )
         response = requests.get(player_url)
         player = response.json()
-    
+
         if "stats" in player["people"][0]:
             years["hitting"] = len(player["people"][0]["stats"][0]["splits"])
 
@@ -363,7 +423,7 @@ def players(id):
 
 @app.route("/leaderboards")
 def leaderboards():
-    
+
     statCategories = [
         "homeRuns",
         "runs",
@@ -380,13 +440,13 @@ def leaderboards():
         "earnedRunAverage",
         "strikeouts",
         "walksAndHitsPerInningPitched",
-        "saves"
-        ]
-    
-    statCategoryType = {
+        "saves",
+    ]
+
+    statCategoryTypes = {
         "homeRuns": "hitting",
         "battingAverage": "hitting",
-        "runs": "running",
+        "runs": "hitting",
         "runsBattedIn": "hitting",
         "doubles": "hitting",
         "triples": "hitting",
@@ -394,19 +454,71 @@ def leaderboards():
         "onBasePercentage": "hitting",
         "sluggingPercentage": "hitting",
         "onBasePlusSlugging": "hitting",
-        "stolenBases": "running",
+        "stolenBases": "hitting",
         "wins": "pitching",
         "earnedRunAverage": "pitching",
         "strikeouts": "pitching",
         "walksAndHitsPerInningPitched": "pitching",
-        "saves": "pitching"
+        "saves": "pitching",
+    }
+
+    statNames = {
+        "homeRuns": "Home Runs",
+        "battingAverage": "Batting Average",
+        "runs": "Runs",
+        "runsBattedIn": "Runs Batted In",
+        "doubles": "Doubles",
+        "triples": "Triples",
+        "hits": "Hits",
+        "onBasePercentage": "On Base %",
+        "sluggingPercentage": "Slugging %",
+        "onBasePlusSlugging": "On Base + Slugging %",
+        "stolenBases": "Stolen Bases",
+        "wins": "Wins",
+        "earnedRunAverage": "Earned Run Average",
+        "strikeouts": "Strike Outs",
+        "walksAndHitsPerInningPitched": "Walks + Hits per IP",
+        "saves": "Saves",
+    }
+
+    statAcronyms = {
+        "homeRuns": "HR",
+        "battingAverage": "AVG",
+        "runs": "R",
+        "runsBattedIn": "RBI",
+        "doubles": "2B",
+        "triples": "3B",
+        "hits": "H",
+        "onBasePercentage": "OBP",
+        "sluggingPercentage": "SLG",
+        "onBasePlusSlugging": "OPS",
+        "stolenBases": "SB",
+        "wins": "W",
+        "earnedRunAverage": "ERA",
+        "strikeouts": "SO",
+        "walksAndHitsPerInningPitched": "WHIP",
+        "saves": "SV",
         }    
-    
-    leagueLeaders = {}
-    
+
+    leagueLeaders = []
+
     for stat in statCategories:
-        leagueLeaders[stat] = (statsapi.get('stats_leaders',{'leaderCategories': stat,'statGroup':statCategoryType[stat]}))["leagueLeaders"]
+        leagueLeaders.append(
+            (
+                statsapi.get(
+                    "stats_leaders",
+                    {"leaderCategories": stat, "statGroup": statCategoryTypes[stat]},
+                )
+            )["leagueLeaders"][0]
+        )
 
-    print(statsapi.get('stats_leaders',{'leaderCategories': 'homeRuns','statGroup':'hitting'}))
+    length = len(leagueLeaders)
 
-    return render_template("leaderboards.html", leagueLeaders=leagueLeaders)
+    return render_template(
+        "leaderboards.html",
+        leagueLeaders=leagueLeaders,
+        length=length,
+        abbreviations=abbreviations,
+        statNames=statNames,
+        statAcronyms=statAcronyms,
+    )
