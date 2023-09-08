@@ -11,7 +11,7 @@ function loadPage() {
 
     var tableBodies = document.querySelectorAll("tbody");
     for (var i = 0; i < tableBodies.length; i++) {
-        tableBodies[i].style.setProperty("--bs-table-color", "#244D87");
+        tableBodies[i].style.removeProperty("--bs-table-color");
     }
 
     var header = document.querySelectorAll(".tableHeader");
@@ -53,6 +53,11 @@ function loadPage() {
     var pitchYears = document.querySelectorAll(".pitchingYears")
     for (var i = 1; i < pitchYears.length; i += 2) {
         pitchYears[i].style.setProperty("--bs-table-bg", "#F7F7F7");
+    }
+
+    var leaderRows = document.querySelectorAll(".leaderRow")
+    for (var i = 1; i < leaderRows.length; i += 3) {
+        leaderRows[i].style.setProperty("--bs-table-bg", "#F7F7F7");
     }
 }
 

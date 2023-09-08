@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
+{% block title %}
+    Player
+{% endblock %}
 {% block main %}
-<div class="row">
+<div class="row mt-2">
     <div class="col-12 d-flex flex-row justify-content-between">
         <div class="d-flex flex-row align-items-center ps-3">
             <img src="https://content.mlb.com/images/headshots/current/60x60/{{player['id']}}@2x.png" />
@@ -10,7 +13,7 @@
                     <h6 class="secondaryText">{{player['primaryPosition']['abbreviation']}}</h6>
                     &nbsp;
                     &nbsp;
-                    <h6><a class="nostyle" href="/teams/{{team['id']}}">{{team['name']}}</a></h6>
+                    <h6><a class="nostyleWhite" href="/teams/{{team['id']}}">{{team['name']}}</a></h6>
                 </div>
             </div>
         </div>
@@ -68,7 +71,7 @@
         </div>
     </div>
 </div>
-<div class="row g-2">
+<div class="row g-2 mb-5">
     {% if player['primaryPosition']['name'] == 'Two-Way Player' %}
     <div class="col-12" id="hitter" style="display: block;">
         <div class="card border-0">

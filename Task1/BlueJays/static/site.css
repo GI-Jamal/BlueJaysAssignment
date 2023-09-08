@@ -35,11 +35,13 @@ body {
     width: 80px;
 }
 
-.secondaryText {
-    color: var(--bj-secondary-color)
+a.nostyle {
+    text-decoration: inherit;
+    color: var(--bj-body-color);
+    font-weight: 600;
 }
 
-a.nostyle {
+a.nostyleWhite {
     text-decoration: inherit;
     color: inherit;
 }
@@ -68,12 +70,12 @@ a.nostyle {
     color: var(--bj-body-color);
 }
 
-tbody {
-    font-weight: 600;
+.secondaryText {
+    color: var(--bj-secondary-color) !important;
 }
 
-/* Start Toggle Switch CSS */
-.btn-container {
+    /* Start Toggle Switch CSS */
+    .btn-container {
     display: table-cell;
     vertical-align: middle;
     text-align: center;

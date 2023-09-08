@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block title %}
+    Team
+{% endblock %}
 {% block main %}
 <div class="row mt-3">
     <div class="col-12 d-flex flex-row align-items-center">
@@ -8,9 +11,8 @@
         <div class="d-flex flex-column">
             <h3 class="titleText">{{standing['team']['name']}}</h3>
             <div class="d-flex flex-row">
-                <h6 class="secondaryText">{{ranks[standing['divisionRank']]}} in {{divisions[standing['division']]}}</h6>
-                &nbsp;
-                <h6>{{standing['leagueRecord']['wins']}} - {{standing['leagueRecord']['losses']}} ({{standing['leagueRecord']['pct']}}) &#x2022; {{standing['gamesBack']}} GB</h6>
+                <h6 class="secondaryText">{{ranks[standing['divisionRank']]}} in {{divisions[standing['division']]}}</h6>&nbsp;&nbsp;
+                <h6>{{standing['leagueRecord']['wins']}} - {{standing['leagueRecord']['losses']}}  ({{standing['leagueRecord']['pct']}})&nbsp;&nbsp;&#x2022;&nbsp;&nbsp;{{standing['gamesBack']}} GB</h6>
             </div>
         </div>
         <div class="ms-auto">
@@ -31,7 +33,7 @@
         </div>
     </div>
 </div>
-<div class="row mt-3 g-2 mb-4">
+<div class="row mt-3 g-2 mb-5">
     <div class="col-12" style="display: block" id="hitter">
         <div class="card border-0">
             <div class="card-body p-0 rounded">
@@ -62,7 +64,7 @@
                             {% for i in range(0, tableLengths['hitters']) %}
                             <tr class="hitterRow">
                                 <td>{{hitters[i]['primaryPosition']['abbreviation']}}</td>
-                                <td>{{hitters[i]['primaryNumber']}}</td>
+                                <td class="secondaryText">{{hitters[i]['primaryNumber']}}</td>
                                 <td style="white-space: nowrap;"><img src="https://content.mlb.com/images/headshots/current/60x60/{{hitters[i]['id']}}.png" height="30" /> <a class="nostyle" href="/players/{{hitters[i]['id']}}">{{hitters[i]['lastName']}}, {{hitters[i]['firstName']}}</a> </td>
                                 <td>{{hitters[i]['currentAge']}}</td>
                                 <td>{{hitters[i]['batSide']['code']}}</td>
@@ -126,7 +128,7 @@
                             {% for i in range(0, tableLengths['pitchers']) %}
                             <tr class="pitcherRow">
                                 <td>{{pitchers[i]['primaryPosition']['abbreviation']}}</td>
-                                <td>{{pitchers[i]['primaryNumber']}}</td>
+                                <td class="secondaryText">{{pitchers[i]['primaryNumber']}}</td>
                                 <td style="white-space: nowrap;"><img src="https://content.mlb.com/images/headshots/current/60x60/{{pitchers[i]['id']}}.png" height="30" /> <a class="nostyle" href="/players/{{pitchers[i]['id']}}">{{pitchers[i]['lastName']}}, {{pitchers[i]['firstName']}}</a></td>
                                 <td>{{pitchers[i]['currentAge']}}</td>
                                 <td>{{pitchers[i]['pitchHand']['code']}}</td>

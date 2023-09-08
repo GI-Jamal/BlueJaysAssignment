@@ -511,6 +511,10 @@ def leaderboards():
                 )
             )["leagueLeaders"][0]
         )
+        
+    for i in range(0, len(statCategories)):
+        for j in range (0, 3):
+            leagueLeaders[i]["leaders"][j]["person"]["position"] = statsapi.lookup_player(leagueLeaders[i]["leaders"][j]["person"]["id"])[0]["primaryPosition"]["abbreviation"]
 
     length = len(leagueLeaders)
 
