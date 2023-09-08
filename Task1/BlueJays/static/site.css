@@ -78,7 +78,7 @@ h6 {
     font-size: 0.78rem;
 }
 
-h5 {
+.responsiveText {
     font-size: 0.7rem;
 }
 
@@ -177,7 +177,7 @@ h5 {
 
 @media (min-width:590px) {
 
-    h5, h6 {
+    .responsiveText, h6 {
         font-size: 1rem;
     }
 }

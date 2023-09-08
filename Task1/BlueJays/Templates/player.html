@@ -39,34 +39,34 @@
     <div class="col-5 d-flex flex-row align-items-center justify-content-end ps-1">
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">B/T</h6>
-            <h5>{{player['batSide']['code']}}/{{player['pitchHand']['code']}}</h5>
+            <h5 class="responsiveText">{{player['batSide']['code']}}/{{player['pitchHand']['code']}}</h5>
         </div>
         &nbsp;
         &nbsp;
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">Age</h6>
-            <h5>{{player['currentAge']}}</h5>
+            <h5 class="responsiveText">{{player['currentAge']}}</h5>
         </div>
         &nbsp;
         &nbsp;
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">H</h6>
-            <h5 style="white-space: nowrap;">{{player['height']}}</h5>
+            <h5 class="responsiveText" style="white-space: nowrap;">{{player['height']}}</h5>
         </div>
         &nbsp;
         &nbsp;
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">W</h6>
-            <h5>{{player['weight']}}</h5>
+            <h5 class="responsiveText">{{player['weight']}}</h5>
         </div>
         &nbsp;
         &nbsp;
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">Drafted</h6>
             {% if 'draftYear' in player %}
-            <h5>{{player['draftYear']}}</h5>
+            <h5 class="responsiveText">{{player['draftYear']}}</h5>
             {% else %}
-            <h5>N/A</h5>
+            <h5 class="responsiveText">N/A</h5>
             {% endif %}
         </div>
     </div>
