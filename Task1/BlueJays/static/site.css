@@ -31,8 +31,8 @@ body {
 .circle {
     background-color: var(--bj-white);
     border-radius: 50%;
-    height: 80px;
-    width: 80px;
+    height: 82px;
+    width: 82px;
 }
 
 a.nostyle {
@@ -72,6 +72,22 @@ a.nostyleWhite {
 
 .secondaryText {
     color: var(--bj-secondary-color) !important;
+}
+
+h6 {
+    font-size: 0.78rem;
+}
+
+h5 {
+    font-size: 0.7rem;
+}
+
+.playerPicture {
+    height: 60px;
+}
+
+.playerName {
+    font-size: 0.8rem;
 }
 
     /* Start Toggle Switch CSS */
@@ -158,3 +174,20 @@ a.nostyleWhite {
                 left: 20px;
             }
 /* End Toggle Switch CSS */
+
+@media (min-width:590px) {
+
+    h5, h6 {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 500px) {
+    .playerPicture {
+        height: 100px;
+    }
+
+    .playerName {
+        font-size: 1.3rem;
+    }
+}

@@ -110,7 +110,7 @@ def teams(id):
 
     team = team_response.json()
 
-    teamName = team["teams"][0]["teamName"].replace(" ", "").lower()
+    teamName = team["teams"][0]["teamName"].replace(" ", "").replace("-", "").lower()
 
     news_url = "https://www.mlb.com/" + teamName + "/feeds/news/rss.xml"
 

@@ -3,13 +3,31 @@
     Player
 {% endblock %}
 {% block main %}
-<div class="row mt-2">
-    <div class="col-12 d-flex flex-row justify-content-between">
-        <div class="d-flex flex-row align-items-center ps-3">
-            <img src="https://content.mlb.com/images/headshots/current/60x60/{{player['id']}}@2x.png" />
+<div class="row mt-3">
+    {% if player['primaryPosition']['name'] == 'Two-Way Player' %}
+    <div class="col-12 d-flex align-items-center justify-content-center">
+        <div class="btn-container">
+            <label class="switch btn-color-mode-switch">
+                <input value="1"
+                       id="color_mode"
+                       type="checkbox"
+                       onchange="switchTable(this)" />
+                <label class="btn-color-mode-switch-inner"
+                       data-off="Hitting"
+                       data-on="Pitching"
+                       for="color_mode"
+                       style="cursor: pointer;">
+                </label>
+            </label>
+        </div>
+    </div>
+    {% endif %}
+    <div class="col-7 d-flex flex-row justify-content-between pe-0">
+        <div class="d-flex flex-row align-items-center ps-1 ps-md-3">
+            <img src="https://content.mlb.com/images/headshots/current/60x60/{{player['id']}}@2x.png" class="playerPicture" />
             <div class="d-flex flex-column">
-                <h3 class="titleText">{{player['fullName']}}</h3>
-                <div class="d-flex flex-row">
+                <h3 class="titleText playerName">{{player['fullName']}}</h3>
+                <div class="d-flex flex-row align-items-center">
                     <h6 class="secondaryText">{{player['primaryPosition']['abbreviation']}}</h6>
                     &nbsp;
                     &nbsp;
@@ -17,63 +35,45 @@
                 </div>
             </div>
         </div>
-        {% if player['primaryPosition']['name'] == 'Two-Way Player' %}
-        <div class="d-flex align-items-center">
-            <div class="btn-container">
-                <label class="switch btn-color-mode-switch">
-                    <input value="1"
-                           id="color_mode"
-                           type="checkbox"
-                           onchange="switchTable(this)" />
-                    <label class="btn-color-mode-switch-inner"
-                           data-off="Hitting"
-                           data-on="Pitching"
-                           for="color_mode"
-                           style="cursor: pointer;">
-                    </label>
-                </label>
-            </div>
+    </div>
+    <div class="col-5 d-flex flex-row align-items-center justify-content-end ps-1">
+        <div class="d-flex flex-column align-items-center">
+            <h6 class="secondaryText">B/T</h6>
+            <h5>{{player['batSide']['code']}}/{{player['pitchHand']['code']}}</h5>
         </div>
-        {% endif %}
-        <div class="d-flex flex-row align-items-center">
-            <div class="d-flex flex-column align-items-center">
-                <h6 class="secondaryText">B/T</h6>
-                <h5>{{player['batSide']['code']}}/{{player['pitchHand']['code']}}</h5>
-            </div>
-            &nbsp;
-            &nbsp;
-            <div class="d-flex flex-column align-items-center">
-                <h6 class="secondaryText">Age</h6>
-                <h5>{{player['currentAge']}}</h5>
-            </div>
-            &nbsp;
-            &nbsp;
-            <div class="d-flex flex-column align-items-center">
-                <h6 class="secondaryText">H</h6>
-                <h5>{{player['height']}}</h5>
-            </div>
-            &nbsp;
-            &nbsp;
-            <div class="d-flex flex-column align-items-center">
-                <h6 class="secondaryText">W</h6>
-                <h5>{{player['weight']}}</h5>
-            </div>
-            &nbsp;
-            &nbsp;
-            <div class="d-flex flex-column align-items-center">
-                <h6 class="secondaryText">Drafted</h6>
-                {% if 'draftYear' in player %}
-                <h5>{{player['draftYear']}}</h5>
-                {% else %}
-                <h5>N/A</h5>
-                {% endif %}
-            </div>
+        &nbsp;
+        &nbsp;
+        <div class="d-flex flex-column align-items-center">
+            <h6 class="secondaryText">Age</h6>
+            <h5>{{player['currentAge']}}</h5>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="d-flex flex-column align-items-center">
+            <h6 class="secondaryText">H</h6>
+            <h5 style="white-space: nowrap;">{{player['height']}}</h5>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="d-flex flex-column align-items-center">
+            <h6 class="secondaryText">W</h6>
+            <h5>{{player['weight']}}</h5>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="d-flex flex-column align-items-center">
+            <h6 class="secondaryText">Drafted</h6>
+            {% if 'draftYear' in player %}
+            <h5>{{player['draftYear']}}</h5>
+            {% else %}
+            <h5>N/A</h5>
+            {% endif %}
         </div>
     </div>
 </div>
 <div class="row g-2 mb-5">
     {% if player['primaryPosition']['name'] == 'Two-Way Player' %}
-    <div class="col-12" id="hitter" style="display: block;">
+    <div class="col-12 mt-0" id="hitter" style="display: block;">
         <div class="card border-0">
             <div class="card-body p-0 rounded">
                 <div class="table-responsive">
@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12" id="pitcher" style="display: none;">
+    <div class="col-12 mt-0" id="pitcher" style="display: none;">
         <div class="card border-0">
             <div class="card-body p-0 rounded">
                 <div class="table-responsive">
@@ -258,7 +258,7 @@
         </div>
     </div>
     {% else %}
-    <div class="col-12">
+    <div class="col-12 mt-0">
         <div class="card border-0">
             <div class="card-body p-0 rounded">
                 <div class="table-responsive">
