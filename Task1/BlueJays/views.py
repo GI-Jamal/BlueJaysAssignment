@@ -514,7 +514,11 @@ def leaderboards():
         
     for i in range(0, len(statCategories)):
         for j in range (0, 3):
-            leagueLeaders[i]["leaders"][j]["person"]["position"] = statsapi.lookup_player(leagueLeaders[i]["leaders"][j]["person"]["id"])[0]["primaryPosition"]["abbreviation"]
+            position_url = "https://statsapi.mlb.com/api/v1/people/" + str(leagueLeaders[i]["leaders"][j]["person"]["id"])
+            
+            position_response = requests.get(position_url)
+            
+            leagueLeaders[i]["leaders"][j]["person"]["position"] = position_response.json()["people"][0]["primaryPosition"]["abbreviation"]
 
     length = len(leagueLeaders)
 
