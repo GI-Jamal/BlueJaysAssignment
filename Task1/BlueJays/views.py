@@ -354,10 +354,6 @@ def teams(id):
 @app.route("/players/<id>")
 def players(id):
 
-    player_lookup = statsapi.lookup_player(id)
-
-    team = statsapi.lookup_team(player_lookup[0]["currentTeam"]["id"])
-
     player_url = "https://statsapi.mlb.com/api/v1/people/" + id
 
     response = requests.get(player_url)
@@ -365,56 +361,62 @@ def players(id):
     player = response.json()
 
     years = {}
+    
+    playerStats = {}
 
     currentYear = datetime.now().year
 
     if player["people"][0]["primaryPosition"]["name"] == "Two-Way Player":
-        player_url = (
+        playerStats_url = (
             "https://statsapi.mlb.com/api/v1/people/"
             + id
             + "?hydrate=stats(group=[hitting,pitching],type=[yearByYear])"
         )
-        response = requests.get(player_url)
-        player = response.json()
+        statsResponse = requests.get(playerStats_url)
+        playerStats = statsResponse.json()
 
         arrange = [1, 0]
 
-        if player["people"][0]["stats"][0]["group"]["displayName"] != "pitching":
-            player["people"][0]["stats"] = [
-                player["people"][0]["stats"][i] for i in arrange
+        if playerStats["people"][0]["stats"][0]["group"]["displayName"] != "pitching":
+            playerStats["people"][0]["stats"] = [
+                playerStats["people"][0]["stats"][i] for i in arrange
             ]
 
-        years["pitching"] = len(player["people"][0]["stats"][0]["splits"])
-        years["hitting"] = len(player["people"][0]["stats"][1]["splits"])
+        years["pitching"] = len(playerStats["people"][0]["stats"][0]["splits"])
+        years["hitting"] = len(playerStats["people"][0]["stats"][1]["splits"])
 
     elif player["people"][0]["primaryPosition"]["name"] == "Pitcher":
-        player_url = (
+        playerStats_url = (
             "https://statsapi.mlb.com/api/v1/people/"
             + id
             + "?hydrate=stats(group=[pitching],type=[yearByYear])"
         )
-        response = requests.get(player_url)
-        player = response.json()
+        statsResponse = requests.get(playerStats_url)
+        playerStats = statsResponse.json()
 
-        if "stats" in player["people"][0]:
-            years["pitching"] = len(player["people"][0]["stats"][0]["splits"])
+        if "stats" in playerStats["people"][0]:
+            years["pitching"] = len(playerStats["people"][0]["stats"][0]["splits"])
 
     else:
-        player_url = (
+        playerStats_url = (
             "https://statsapi.mlb.com/api/v1/people/"
             + id
             + "?hydrate=stats(group=[hitting],type=[yearByYear])"
         )
-        response = requests.get(player_url)
-        player = response.json()
+        statsResponse = requests.get(playerStats_url)
+        playerStats = statsResponse.json()
 
-        if "stats" in player["people"][0]:
-            years["hitting"] = len(player["people"][0]["stats"][0]["splits"])
+        if "stats" in playerStats["people"][0]:
+            years["hitting"] = len(playerStats["people"][0]["stats"][0]["splits"])
+    
+
+    team = {"name": playerStats["people"][0]["stats"][0]["splits"][len(playerStats["people"][0]["stats"][0]["splits"]) - 1]["team"]["name"], "id": playerStats["people"][0]["stats"][0]["splits"][len(playerStats["people"][0]["stats"][0]["splits"]) - 1]["team"]["id"]}
+        
 
     return render_template(
         "player.html",
-        player=player["people"][0],
-        team=team[0],
+        playerStats=playerStats["people"][0],
+        team=team,
         abbreviations=abbreviations,
         years=years,
         currentYear=currentYear,

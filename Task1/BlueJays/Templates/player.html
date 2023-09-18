@@ -4,7 +4,7 @@
 {% endblock %}
 {% block main %}
 <div class="row mt-3">
-    {% if player['primaryPosition']['name'] == 'Two-Way Player' %}
+    {% if playerStats['primaryPosition']['name'] == 'Two-Way Player' %}
     <div class="col-12 d-flex align-items-center justify-content-center">
         <div class="btn-container">
             <label class="switch btn-color-mode-switch">
@@ -24,11 +24,11 @@
     {% endif %}
     <div class="col-7 d-flex flex-row justify-content-between pe-0">
         <div class="d-flex flex-row align-items-center ps-1 ps-md-3">
-            <img src="https://content.mlb.com/images/headshots/current/60x60/{{player['id']}}@2x.png" class="playerPicture" />
+            <img src="https://content.mlb.com/images/headshots/current/60x60/{{playerStats['id']}}@2x.png" class="playerPicture" />
             <div class="d-flex flex-column">
-                <h3 class="titleText playerName mb-0">{{player['fullName']}}</h3>
+                <h3 class="titleText playerName mb-0">{{playerStats['fullName']}}</h3>
                 <div class="d-flex flex-row align-items-center">
-                    <h6 class="secondaryText">{{player['primaryPosition']['abbreviation']}}</h6>
+                    <h6 class="secondaryText">{{playerStats['primaryPosition']['abbreviation']}}</h6>
                     &nbsp;
                     &nbsp;
                     <h6><a class="nostyleWhite" href="/teams/{{team['id']}}">{{team['name']}}</a></h6>
@@ -39,32 +39,32 @@
     <div class="col-5 d-flex flex-row align-items-center justify-content-end ps-1">
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">B/T</h6>
-            <h5 class="responsiveText">{{player['batSide']['code']}}/{{player['pitchHand']['code']}}</h5>
+            <h5 class="responsiveText">{{playerStats['batSide']['code']}}/{{playerStats['pitchHand']['code']}}</h5>
         </div>
         &nbsp;
         &nbsp;
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">Age</h6>
-            <h5 class="responsiveText">{{player['currentAge']}}</h5>
+            <h5 class="responsiveText">{{playerStats['currentAge']}}</h5>
         </div>
         &nbsp;
         &nbsp;
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">H</h6>
-            <h5 class="responsiveText" style="white-space: nowrap;">{{player['height']}}</h5>
+            <h5 class="responsiveText" style="white-space: nowrap;">{{playerStats['height']}}</h5>
         </div>
         &nbsp;
         &nbsp;
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">W</h6>
-            <h5 class="responsiveText">{{player['weight']}}</h5>
+            <h5 class="responsiveText">{{playerStats['weight']}}</h5>
         </div>
         &nbsp;
         &nbsp;
         <div class="d-flex flex-column align-items-center">
             <h6 class="secondaryText">Drafted</h6>
-            {% if 'draftYear' in player %}
-            <h5 class="responsiveText">{{player['draftYear']}}</h5>
+            {% if 'draftYear' in playerStats %}
+            <h5 class="responsiveText">{{playerStats['draftYear']}}</h5>
             {% else %}
             <h5 class="responsiveText">N/A</h5>
             {% endif %}
@@ -72,7 +72,7 @@
     </div>
 </div>
 <div class="row g-2 mb-5">
-    {% if player['primaryPosition']['name'] == 'Two-Way Player' %}
+    {% if playerStats['primaryPosition']['name'] == 'Two-Way Player' %}
     <div class="col-12 mt-0" id="hitter" style="display: block;">
         <div class="card border-0">
             <div class="card-body p-0 rounded">
@@ -101,25 +101,25 @@
                         </thead>
                         <tbody>
                             {% for i in range(0, years['hitting']) %}
-                            {% if 'team' in player['stats'][0]['splits'][i] %}
+                            {% if 'team' in playerStats['stats'][1]['splits'][i] %}
                             <tr class="hittingYears">
-                                <td>{{player['stats'][1]['splits'][i]['season']}}</td>
-                                <td style="white-space: nowrap;"><img src="https://www.mlbstatic.com/team-logos/{{player['stats'][0]['splits'][i]['team']['id']}}.svg" width="25" height="25" /> <a class="nostyle" href="/teams/{{player['stats'][0]['splits'][i]['team']['id']}}">{{abbreviations[player['stats'][0]['splits'][i]['team']['name']]}}</a></td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['gamesPlayed']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['plateAppearances']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['atBats']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['runs']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['hits']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['doubles']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['triples']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['homeRuns']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['rbi']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['stolenBases']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['baseOnBalls']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['strikeOuts']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['obp']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['slg']}}</td>
-                                <td>{{player['stats'][1]['splits'][i]['stat']['ops']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['season']}}</td>
+                                <td style="white-space: nowrap;"><img src="https://www.mlbstatic.com/team-logos/{{playerStats['stats'][1]['splits'][i]['team']['id']}}.svg" width="25" height="25" /> <a class="nostyle" href="/teams/{{playerStats['stats'][1]['splits'][i]['team']['id']}}">{{abbreviations[playerStats['stats'][1]['splits'][i]['team']['name']]}}</a></td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['gamesPlayed']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['plateAppearances']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['atBats']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['runs']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['hits']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['doubles']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['triples']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['homeRuns']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['rbi']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['stolenBases']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['baseOnBalls']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['strikeOuts']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['obp']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['slg']}}</td>
+                                <td>{{playerStats['stats'][1]['splits'][i]['stat']['ops']}}</td>
                             </tr>
                             {% endif %}
                             {% endfor %}
@@ -156,23 +156,23 @@
                         </thead>
                         <tbody>
                             {% for i in range(0, years['pitching']) %}
-                            {% if 'team' in player['stats'][0]['splits'][i] %}
+                            {% if 'team' in playerStats['stats'][0]['splits'][i] %}
                             <tr class="pitchingYears">
-                                <td>{{player['stats'][0]['splits'][i]['season']}}</td>
-                                <td style="white-space: nowrap;"><img src="https://www.mlbstatic.com/team-logos/{{player['stats'][0]['splits'][i]['team']['id']}}.svg" width="25" height="25" /> <a class="nostyle" href="/teams/{{player['stats'][0]['splits'][i]['team']['id']}}">{{abbreviations[player['stats'][0]['splits'][i]['team']['name']]}}</a></td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['gamesPlayed']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['inningsPitched']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['wins']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['losses']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['saves']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['era']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['whip']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['hits']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['runs']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['strikeOuts']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['baseOnBalls']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['homeRunsPer9']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['ops']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['season']}}</td>
+                                <td style="white-space: nowrap;"><img src="https://www.mlbstatic.com/team-logos/{{playerStats['stats'][0]['splits'][i]['team']['id']}}.svg" width="25" height="25" /> <a class="nostyle" href="/teams/{{playerStats['stats'][0]['splits'][i]['team']['id']}}">{{abbreviations[playerStats['stats'][0]['splits'][i]['team']['name']]}}</a></td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['gamesPlayed']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['inningsPitched']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['wins']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['losses']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['saves']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['era']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['whip']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['hits']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['runs']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['strikeOuts']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['baseOnBalls']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['homeRunsPer9']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['ops']}}</td>
                             </tr>
                             {% endif %}
                             {% endfor %}
@@ -183,7 +183,7 @@
             </div>
         </div>
     </div>
-    {% elif player['primaryPosition']['name'] == 'Pitcher' %}
+    {% elif playerStats['primaryPosition']['name'] == 'Pitcher' %}
     <div class="col-12">
         <div class="card border-0">
             <div class="card-body p-0 rounded">
@@ -209,25 +209,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% if 'stats' in player %}
+                            {% if 'stats' in playerStats %}
                             {% for i in range(0, years['pitching']) %}
-                            {% if 'team' in player['stats'][0]['splits'][i] %}
+                            {% if 'team' in playerStats['stats'][0]['splits'][i] %}
                             <tr class="yearRow">
-                                <td>{{player['stats'][0]['splits'][i]['season']}}</td>
-                                <td style="white-space: nowrap;"><img src="https://www.mlbstatic.com/team-logos/{{player['stats'][0]['splits'][i]['team']['id']}}.svg" width="25" height="25" /> <a class="nostyle" href="/teams/{{player['stats'][0]['splits'][i]['team']['id']}}">{{abbreviations[player['stats'][0]['splits'][i]['team']['name']]}}</a></td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['gamesPlayed']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['inningsPitched']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['wins']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['losses']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['saves']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['era']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['whip']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['hits']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['runs']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['strikeOuts']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['baseOnBalls']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['homeRunsPer9']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['ops']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['season']}}</td>
+                                <td style="white-space: nowrap;"><img src="https://www.mlbstatic.com/team-logos/{{playerStats['stats'][0]['splits'][i]['team']['id']}}.svg" width="25" height="25" /> <a class="nostyle" href="/teams/{{playerStats['stats'][0]['splits'][i]['team']['id']}}">{{abbreviations[playerStats['stats'][0]['splits'][i]['team']['name']]}}</a></td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['gamesPlayed']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['inningsPitched']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['wins']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['losses']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['saves']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['era']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['whip']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['hits']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['runs']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['strikeOuts']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['baseOnBalls']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['homeRunsPer9']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['ops']}}</td>
                             </tr>
                             {% endif %}
                             {% endfor %}
@@ -285,27 +285,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% if 'stats' in player %}
+                            {% if 'stats' in playerStats %}
                             {% for i in range(0, years['hitting']) %}
-                            {% if 'team' in player['stats'][0]['splits'][i] %}
+                            {% if 'team' in playerStats['stats'][0]['splits'][i] %}
                             <tr class="yearRow">
-                                <td>{{player['stats'][0]['splits'][i]['season']}}</td>
-                                <td style="white-space: nowrap;"><img src="https://www.mlbstatic.com/team-logos/{{player['stats'][0]['splits'][i]['team']['id']}}.svg" width="25" height="25" /> <a class="nostyle" href="/teams/{{player['stats'][0]['splits'][i]['team']['id']}}">{{abbreviations[player['stats'][0]['splits'][i]['team']['name']]}}</a></td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['gamesPlayed']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['plateAppearances']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['atBats']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['runs']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['hits']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['doubles']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['triples']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['homeRuns']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['rbi']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['stolenBases']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['baseOnBalls']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['strikeOuts']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['obp']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['slg']}}</td>
-                                <td>{{player['stats'][0]['splits'][i]['stat']['ops']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['season']}}</td>
+                                <td style="white-space: nowrap;"><img src="https://www.mlbstatic.com/team-logos/{{playerStats['stats'][0]['splits'][i]['team']['id']}}.svg" width="25" height="25" /> <a class="nostyle" href="/teams/{{playerStats['stats'][0]['splits'][i]['team']['id']}}">{{abbreviations[playerStats['stats'][0]['splits'][i]['team']['name']]}}</a></td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['gamesPlayed']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['plateAppearances']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['atBats']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['runs']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['hits']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['doubles']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['triples']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['homeRuns']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['rbi']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['stolenBases']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['baseOnBalls']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['strikeOuts']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['obp']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['slg']}}</td>
+                                <td>{{playerStats['stats'][0]['splits'][i]['stat']['ops']}}</td>
                             </tr>
                             {% endif %}
                             {% endfor %}
