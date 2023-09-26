@@ -181,8 +181,13 @@ def teams(id):
             battersFaced = player["person"]["stats"][0]["splits"][0]["stat"][
                 "battersFaced"
             ]
-            strikeOutRate = round((strikeOuts / battersFaced) * 100)
-            walkRate = round((walks / battersFaced) * 100)
+            
+            if battersFaced == 0:
+                strikeOutRate = "-"
+                walkRate = "-"
+            else:
+                strikeOutRate = round((strikeOuts / battersFaced) * 100)
+                walkRate = round((walks / battersFaced) * 100)
 
             player["person"]["stats"][0]["splits"][0]["stat"][
                 "strikeOutRate"
@@ -328,8 +333,12 @@ def teams(id):
             plateAppearances = player["person"]["stats"][0]["splits"][0]["stat"][
                 "plateAppearances"
             ]
-            strikeOutRate = round((strikeOuts / plateAppearances) * 100, 1)
-            walkRate = round((walks / plateAppearances) * 100, 1)
+            if plateAppearances == 0:
+                strikeOutRate = "-"
+                walkRate = "-"
+            else:
+                strikeOutRate = round((strikeOuts / plateAppearances) * 100, 1)
+                walkRate = round((walks / plateAppearances) * 100, 1)
 
             player["person"]["stats"][0]["splits"][0]["stat"][
                 "strikeOutRate"
