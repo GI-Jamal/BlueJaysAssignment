@@ -65,7 +65,7 @@
                             <tr class="hitterRow">
                                 <td>{{hitters[i]['primaryPosition']['abbreviation']}}</td>
                                 <td class="secondaryText">{{hitters[i]['primaryNumber']}}</td>
-                                <td style="white-space: nowrap;"><img src="https://content.mlb.com/images/headshots/current/60x60/{{hitters[i]['id']}}.png" height="30" /> <a class="nostyle" href="/players/{{hitters[i]['id']}}">{{hitters[i]['lastName']}}, {{hitters[i]['firstName']}}</a> </td>
+                                <td style="white-space: nowrap;"><img src="https://content.mlb.com/images/headshots/current/60x60/{{hitters[i]['id']}}.png" height="30" /> <a class="nostyle" href="/players/{{hitters[i]['id']}}?teamId={{standing['team']['id']}}">{{hitters[i]['lastName']}}, {{hitters[i]['firstName']}}</a> </td>
                                 <td>{{hitters[i]['currentAge']}}</td>
                                 <td>{{hitters[i]['batSide']['code']}}</td>
                                 <td>{{hitters[i]['pitchHand']['code']}}</td>
@@ -129,7 +129,7 @@
                             <tr class="pitcherRow">
                                 <td>{{pitchers[i]['primaryPosition']['abbreviation']}}</td>
                                 <td class="secondaryText">{{pitchers[i]['primaryNumber']}}</td>
-                                <td style="white-space: nowrap;"><img src="https://content.mlb.com/images/headshots/current/60x60/{{pitchers[i]['id']}}.png" height="30" /> <a class="nostyle" href="/players/{{pitchers[i]['id']}}">{{pitchers[i]['lastName']}}, {{pitchers[i]['firstName']}}</a></td>
+                                <td style="white-space: nowrap;"><img src="https://content.mlb.com/images/headshots/current/60x60/{{pitchers[i]['id']}}.png" height="30" /> <a class="nostyle" href="/players/{{pitchers[i]['id']}}?teamId={{standing['team']['id']}}">{{pitchers[i]['lastName']}}, {{pitchers[i]['firstName']}}</a></td>
                                 <td>{{pitchers[i]['currentAge']}}</td>
                                 <td>{{pitchers[i]['pitchHand']['code']}}</td>
                                 {% if 'stats' not in pitchers[i]%}

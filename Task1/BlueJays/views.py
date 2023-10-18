@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request
 from BlueJays import app
 from datetime import datetime
 import requests
@@ -363,6 +363,12 @@ def teams(id):
 @app.route("/players/<id>")
 def players(id):
 
+    teamId = request.args.get("teamId")
+    
+    teamName = (statsapi.lookup_team(teamId))[0]["name"]
+    
+    team = {"name": teamName, "id": teamId}
+
     player_url = "https://statsapi.mlb.com/api/v1/people/" + id
 
     response = requests.get(player_url)
@@ -416,11 +422,7 @@ def players(id):
         playerStats = statsResponse.json()
 
         if "stats" in playerStats["people"][0]:
-            years["hitting"] = len(playerStats["people"][0]["stats"][0]["splits"])
-    
-
-    team = {"name": playerStats["people"][0]["stats"][0]["splits"][len(playerStats["people"][0]["stats"][0]["splits"]) - 1]["team"]["name"], "id": playerStats["people"][0]["stats"][0]["splits"][len(playerStats["people"][0]["stats"][0]["splits"]) - 1]["team"]["id"]}
-        
+            years["hitting"] = len(playerStats["people"][0]["stats"][0]["splits"])        
 
     return render_template(
         "player.html",
